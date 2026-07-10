@@ -115,10 +115,6 @@ local languages = {
     { text = "Français (French)", data = "fr" },
 }
 
-local extradatas = {
-    { text = lang.get("noto_sans_cjk_50_mb"), info = lang.get("chinese_japanese_korean_font_files"), path = "olympus-extra-cjk.zip", url = "https://0x0a.de/olympus-extra/olympus-extra-cjk.zip" }
-}
-
 
 local themePickerEntries = {}
 for i = 1, #themes do
@@ -414,88 +410,15 @@ local root = uie.column({
 
                     uie.button(lang.get("open_installation_folder"), function()
                         utils.openFile(fs.getsrc())
-                    end):with(uiu.fillWidth(8 + 1 / 4)),
+                    end):with(uiu.fillWidth(8 + 1 / 3)),
 
                     uie.button(lang.get("open_log_and_config_folder"), function()
                         utils.openFile(fs.getStorageDir())
-                    end):with(uiu.fillWidth(8 + 1 / 4)):with(uiu.at(1 / 4)),
-
-                    uie.button(lang.get("download_extra_data"), function()
-                        local btns = {}
-
-                        for i = 1, #extradatas do
-                            local data = extradatas[i]
-                            btns[#btns + 1] = uie.button(
-                                { { 1, 1, 1, 1 }, data.text .. "\n", { 1, 1, 1, 0.5 }, data.info},
-                                function(self)
-                                    local installer = scener.push("installer")
-                                    installer.sharpTask("installExtraData", data.url, data.path):calls(function(task, last)
-                                        if not last then
-                                            return
-                                        end
-
-                                        installer.update(string.format(lang.get("extra_data_s_successfully_installed"), data.path), 1, "done")
-                                        installer.done({
-                                            {
-                                                lang.get("restart_olympus"),
-                                                function()
-                                                    sharp.restart(love.filesystem.getSource()):result()
-                                                    love.event.quit()
-                                                end
-                                            }
-                                        })
-                                    end)
-                                    self:getParent("container"):close(lang.get("ok"))
-                                end
-                            ):with({
-                                enabled = not fs.isFile(fs.joinpath(fs.getsrc(), data.path))
-                            })
-                        end
-
-                        alert({
-                            body = uie.scrollbox(
-                                uie.column(btns)
-                            ),
-                            init = function(container)
-                                btns[#btns + 1] = uie.button(lang.get("close"), function()
-                                    container:close(lang.get("close"))
-                                end)
-                                container:findChild("buttons"):removeSelf()
-
-                                local body = container:findChild("body")
-                                body:with({
-                                    calcSize = uie.group.calcSize
-                                })
-                                container:hook({
-                                    awake = function(orig, self)
-                                        orig(self)
-                                        self:layoutLazy()
-                                        self:layoutLateLazy()
-                                        local el = body.children[1]
-                                        local children = el.children
-                                        local widest = 0
-                                        for i = 1, #children do
-                                            local width = children[i].width
-                                            if width > widest then
-                                                widest = width
-                                            end
-                                        end
-                                        for i = 1, #children do
-                                            if children[i].width < widest then
-                                                children[i]:with(uiu.fillWidth):reflow()
-                                            end
-                                        end
-                                        self:reflowDown()
-                                        self:reflow()
-                                    end
-                                })
-                            end
-                        })
-                    end):with(uiu.fillWidth(8 + 1 / 4)):with(uiu.at(2 / 4)),
+                    end):with(uiu.fillWidth(8 + 1 / 3)):with(uiu.at(1 / 3)),
 
                     uie.button(lang.get("connectivity_test"), function()
                         scener.push("gfwtest")
-                    end):with(uiu.fillWidth(8 + 1 / 4)):with(uiu.at(3 / 4)),
+                    end):with(uiu.fillWidth(8 + 1 / 3)):with(uiu.at(2 / 3)),
 
 
                 }):with(uiu.fillWidth),

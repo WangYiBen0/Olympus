@@ -142,8 +142,6 @@ function config.load()
     default(data, "closeAfterOneClickInstall", "disabled")
 
     default(data, "language", "en")
-
-    default(data, "extradata", {})
 end
 
 function config.save()

@@ -160,6 +160,28 @@ function love.errhand(...)
     return _love_errhand(...)
 end
 
+function makeFontWithFallbacks(withRenogare, size)
+    local fonts = {
+        "data/fonts/Poppins-Regular.ttf",
+        "data/fonts/NotoSans-Regular.ttf",
+        "data/fonts/NotoSansCJK-Regular.ttc",
+    }
+    if withRenogare then
+        table.insert(fonts, 1, "data/fonts/Renogare-Regular.otf")
+    end
+
+    for i = #fonts, 1, -1 do
+        if love.filesystem.getInfo(fonts[i], "file") then
+            fonts[i] = love.graphics.newFont(fonts[i], size)
+        else
+            table.remove(fonts, i)
+        end
+    end
+    local font = fonts[1]
+    font:setFallbacks(table.unpack(fonts, 2))
+    return font
+end
+
 function love.load(args)
     utils = require("utils")
     log.debug("This is Olympus.Lua version", utils.trim(utils.load("version.txt") or "?"))
@@ -227,16 +249,6 @@ function love.load(args)
 
     lang.updateSharp()
 
-    local extradata = {
-        "olympus-extra-cjk.zip"
-    }
-    for i = 1, #extradata do
-        love.filesystem.mountUnsandboxed(extradata[i], "/", 0)
-    end
-    for i = 1, #config.extradata do
-        love.filesystem.mountUnsandboxed(config.extradata[i], "/", 0)
-    end
-
     logChannel = love.thread.getChannel("olympusLog")
     logFile = io.open(fs.joinpath(fs.getStorageDir(false), "log.txt"), "w+")
 
@@ -260,29 +272,11 @@ function love.load(args)
     megacanvas = require("ui.megacanvas")
     require("elements")
 
-    local fonts = {
-        "data/fonts/Poppins-Regular.ttf",
-        "data/fonts/NotoSans-Regular.ttf",
-        "data/fonts/NotoSansCJKjp-Regular.otf",
-        "data/fonts/NotoSansCJKkr-Regular.otf",
-        "data/fonts/NotoSansCJKsc-Regular.otf",
-        "data/fonts/NotoSansCJKtc-Regular.otf"
-    }
-
-    for i = #fonts, 1, -1 do
-        if love.filesystem.getInfo(fonts[i], "file") then
-            fonts[i] = love.graphics.newFont(fonts[i], 14)
-        else
-            table.remove(fonts, i)
-        end
-    end
-    local font = fonts[1]
-    font:setFallbacks(table.unpack(fonts, 2))
-    love.graphics.setFont(font)
+    love.graphics.setFont(makeFontWithFallbacks(false, 14))
     ui.fontDebug = love.graphics.newFont("data/fonts/Perfect DOS VGA 437.ttf", 8)
     ui.fontMono = love.graphics.newFont("data/fonts/Perfect DOS VGA 437.ttf", 16)
-    ui.fontBig = love.graphics.newFont("data/fonts/Renogare-Regular.otf", 28)
-    ui.fontMedium = love.graphics.newFont("data/fonts/Renogare-Regular.otf", 21)
+    ui.fontBig = makeFontWithFallbacks(true, 28)
+    ui.fontMedium = makeFontWithFallbacks(true, 21)
 
     overlay = uiu.image("overlay")
 

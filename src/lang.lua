@@ -1,5 +1,6 @@
 local config = require("config")
 local log = require('logger')('lang')
+local utils = require('utils')
 
 local langs = {
     en = require("lang/en"),
@@ -38,10 +39,10 @@ local function updateSharp()
         end
     end
     for key, _ in pairs(csharp_keys) do
-        log.debug("Transmitting language key", key, "to sharp")
-        if sharp.setLanguageMap(key, get(key)):result() ~= "ok" then
-            log.error("Couldn't update the sharp language map! Things might go badly.")
-        end
+        csharp_keys[key] = get(key)
+    end
+    if sharp.setLanguageMap(utils.toJSON(csharp_keys)):result() ~= "ok" then
+        log.error("Couldn't update the sharp language map! Things might go badly.")
     end
 end
 

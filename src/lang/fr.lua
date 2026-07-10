@@ -404,7 +404,7 @@ over the lazy dog.]],
     language = [[Langue]],
     restart_to_apply_changes_in_languages = [[Tu dois redémarrer Olympus pour que le changement de langue s'applique complètement.]],
     note_this_only_covers_olympus_1 = [[NOTE : ]],
-    note_this_only_covers_olympus_2 = [[Cette section ne concerne que les mises à jour d'Olympus. Pour mettre à jour Everest et Lönn, utilise les boutons]],
+    note_this_only_covers_olympus_2 = [[Cette section ne concerne que les mises à jour d'Olympus. Pour Everest et Lönn, utilise les boutons]],
     note_this_only_covers_olympus_3 = [[dans le menu principal.]],
 
     -- C# stuff (Cmds.Download / CmdUpdateAllMods)

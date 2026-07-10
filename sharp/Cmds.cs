@@ -52,6 +52,7 @@ namespace Olympus {
                 new CmdPollWaitBatch(),
                 new CmdRestart(),
                 new CmdScanDragAndDrop(),
+                new CmdSetLanguageMap(),
                 new CmdSetOlympusVersion(),
                 new CmdStatus(),
                 new CmdUninstallEverest(),
@@ -134,7 +135,7 @@ namespace Olympus {
         }
 
         public static IEnumerator Download(string url, long length, Stream copy) {
-            yield return Status($"Downloading {Path.GetFileName(url)}", false, "download", false);
+            yield return Status($"{Lang.Get("downloadingfile")} {Path.GetFileName(url)}", false, "download", false);
             yield return Status("", false, "download", false);
 
             DateTime timeStart = DateTime.Now;
@@ -192,9 +193,9 @@ namespace Olympus {
                         }
 
                         if (length > 0) {
-                            yield return StatusSilent($"Downloading: {((int) Math.Floor(100D * Math.Min(1D, pos / (double) length)))}% @ {speed} KiB/s", (float) ((pos / progressScale) / (double) progressSize), "download", true);
+                            yield return StatusSilent($"{Lang.Get("downloadingprogress")} {((int) Math.Floor(100D * Math.Min(1D, pos / (double) length)))}% @ {speed} KiB/s", (float) ((pos / progressScale) / (double) progressSize), "download", true);
                         } else {
-                            yield return StatusSilent($"Downloading: {((int) Math.Floor(pos / 1000D))}KiB @ {speed} KiB/s", false, "download", true);
+                            yield return StatusSilent($"{Lang.Get("downloadingprogress")} {((int) Math.Floor(pos / 1000D))}KiB @ {speed} KiB/s", false, "download", true);
                         }
                     } while (read > 0);
 
@@ -203,7 +204,7 @@ namespace Olympus {
 
             string logTime = (DateTime.Now - timeStart).TotalSeconds.ToString(CultureInfo.InvariantCulture);
             logTime = logTime.Substring(0, Math.Min(logTime.IndexOf('.') + 3, logTime.Length));
-            yield return Status($"Downloaded {pos} bytes in {logTime} seconds.", 1f, "download", true);
+            yield return Status(string.Format(Lang.Get("downloaded"), pos, logTime), 1f, "download", true);
         }
 
 
@@ -211,7 +212,7 @@ namespace Olympus {
             int count = string.IsNullOrEmpty(prefix) ? zip.Entries.Count : zip.Entries.Count(entry => entry.FullName.StartsWith(prefix));
             int i = 0;
 
-            yield return Status($"Unzipping {count} files", 0f, "download", false);
+            yield return Status(string.Format(Lang.Get("unzipping_files"), count), 0f, "download", false);
 
             foreach (ZipArchiveEntry entry in zip.Entries) {
                 string name = entry.FullName;
@@ -224,7 +225,7 @@ namespace Olympus {
                     name = name.Substring(prefix.Length);
                 }
 
-                yield return Status($"Unzipping #{i} / {count}: {name}", i / (float) count, "download", true);
+                yield return Status($"{Lang.Get("unzipping")} #{i} / {count}: {name}", i / (float) count, "download", true);
                 i++;
 
                 string to = Path.Combine(root, name);
@@ -242,7 +243,7 @@ namespace Olympus {
                     compressed.CopyTo(fs);
             }
 
-            yield return Status($"Unzipped {count} files", 1f, "download", true);
+            yield return Status(string.Format(Lang.Get("unzipped_files"), count), 1f, "download", true);
         }
 
         public abstract object ParseInputTuple(JObject tuple);

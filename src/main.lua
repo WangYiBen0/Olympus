@@ -225,6 +225,8 @@ function love.load(args)
     config = require("config")
     config.load()
 
+    lang.updateSharp()
+
     local extradata = {
         "olympus-extra-cjk.zip"
     }

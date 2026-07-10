@@ -2,6 +2,7 @@ local function logger(tag)
     local logger = {}
     local function log(level, ...)
         print('[' .. os.date('%Y-%m-%d %H:%M:%S') .. ']', '[' .. level .. ']', '[' .. tag .. ']', ...)
+        io.flush()
     end
 
     -- "..." lets us toss any number of arguments to the final call to "print"

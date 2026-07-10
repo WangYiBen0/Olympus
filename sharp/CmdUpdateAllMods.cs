@@ -8,55 +8,16 @@ using System.Net.Http;
 using System.Security.Cryptography;
 
 namespace Olympus {
-    public class CmdUpdateAllMods : Cmd<string, bool, string, bool, string, IEnumerator> {
+    public class CmdUpdateAllMods : Cmd<string, bool, string, bool, IEnumerator> {
         private static readonly Logger log = new Logger(nameof(CmdUpdateAllMods));
 
         public override bool Taskable => true;
 
-        private static readonly Dictionary<string, Dictionary<string, string>> translations = new Dictionary<string, Dictionary<string, string>> {
-            {
-                "en", new Dictionary<string, string> {
-                    { "downloadinglist", "Downloading mod versions list" },
-                    { "downloadingfile", "Downloading " },
-                    { "downloadingprogress", "Downloading:" },
-                    { "checking", "Checking for outdated mods" },
-                    { "updating", "Updating" },
-                    { "installing", "installing update" },
-                    { "finished_noop", "Update check finished.\nNo updates were found." },
-                    { "finished", "Update successful!\nThe following mods were updated:" },
-                    { "checksum", "verifying checksum" }
-                }
-            }, {
-                "fr", new Dictionary<string, string> {
-                    { "downloadinglist", "Téléchargement de la liste des mods" },
-                    { "downloadingfile", "Téléchargement de " },
-                    { "downloadingprogress", "Téléchargement -" },
-                    { "checking", "Vérification des mises à jour" },
-                    { "updating", "Mise à jour" },
-                    { "installing", "installation en cours" },
-                    { "finished_noop", "La vérification est terminée.\nAucune mise à jour n'a été trouvée." },
-                    { "finished", "Mise à jour terminée !\nLes mods suivants ont été mis à jour :" },
-                    { "checksum", "vérification de la somme de contrôle" }
-                }
-            },
-        };
-
-        private static string langGet(string lang, string key) {
-            if (lang.Equals("ne")) {
-                char[] charArray = translations["en"][key].ToCharArray();
-                Array.Reverse(charArray);
-                return new string(charArray);
-            }
-            return translations[lang][key];
-        }
-
-
-
-        public override IEnumerator Run(string root, bool onlyEnabled, string mirrorPreferences, bool apiMirror, string lang) {
-            yield return $"{langGet(lang, "downloadinglist")}...";
+        public override IEnumerator Run(string root, bool onlyEnabled, string mirrorPreferences, bool apiMirror) {
+            yield return $"{Lang.Get("downloadinglist")}...";
             Dictionary<string, ModUpdateInfo> modVersionList = downloadModUpdateList(apiMirror);
 
-            yield return $"{langGet(lang, "checking")}...";
+            yield return $"{Lang.Get("checking")}...";
 
             Dictionary<ModUpdateInfo, CmdModList.ModInfo> updates = new Dictionary<ModUpdateInfo, CmdModList.ModInfo>();
 
@@ -69,7 +30,7 @@ namespace Olympus {
 
             foreach (CmdModList.ModInfo info in new EnumeratorEnumerator { Enumerator = new CmdModList().Run(root, readYamls: true, computeHashes: true, onlyUpdatable: true, onlyEnabled) }) {
                 processedCount++;
-                yield return $"{langGet(lang, "checking")} (" + (int) Math.Round(processedCount * 100f / totalCount) + "%)...";
+                yield return $"{Lang.Get("checking")} (" + (int) Math.Round(processedCount * 100f / totalCount) + "%)...";
 
                 if (info.Hash != null && modVersionList.ContainsKey(info.Name)) {
                     log.Debug($"Mod {info.Name}: installed hash {info.Hash}, latest hash(es) {string.Join(", ", modVersionList[info.Name].xxHash)}");
@@ -83,17 +44,17 @@ namespace Olympus {
 
             int updatingMod = 1;
             foreach (KeyValuePair<ModUpdateInfo, CmdModList.ModInfo> update in updates) {
-                string messagePrefix = $"[{updatingMod}/{updates.Count}] {langGet(lang, "updating")} {update.Value.Name}";
+                string messagePrefix = $"[{updatingMod}/{updates.Count}] {Lang.Get("updating")} {update.Value.Name}";
 
                 yield return messagePrefix + "...";
 
                 // download from GameBanana, if that fails download from mirror
                 string tempZip = Path.Combine(root, "mod-update.zip");
-                foreach (string message in new EnumeratorEnumerator { Enumerator = tryDownloadWithMirror(update.Key, messagePrefix, tempZip, mirrorPreferences, lang) }) {
+                foreach (string message in new EnumeratorEnumerator { Enumerator = tryDownloadWithMirror(update.Key, messagePrefix, tempZip, mirrorPreferences) }) {
                     yield return message;
                 }
 
-                yield return messagePrefix + $": {langGet(lang, "installing")}";
+                yield return messagePrefix + $": {Lang.Get("installing")}";
                 installModUpdate(update.Key, update.Value, tempZip);
 
                 updatingMod++;
@@ -101,9 +62,9 @@ namespace Olympus {
 
             // The last yielded message might be displayed as a recap popup by Olympus when relevant.
             if (updates.Count == 0) {
-                yield return langGet(lang, "finished_noop");
+                yield return Lang.Get("finished_noop");
             } else {
-                yield return langGet(lang, "finished")
+                yield return Lang.Get("finished")
                     + updates.Values.Aggregate("", (a, b) => $"{a}\n- {b.Name}");
             }
         }
@@ -149,7 +110,7 @@ namespace Olympus {
             }
         }
 
-        private static IEnumerator tryDownloadWithMirror(ModUpdateInfo info, string messagePrefix, string destination, string mirrorPreferences, string lang) {
+        private static IEnumerator tryDownloadWithMirror(ModUpdateInfo info, string messagePrefix, string destination, string mirrorPreferences) {
             Exception lastException = null;
 
             foreach (string url in GetAllMirrorUrls(info.URL, mirrorPreferences)) {
@@ -177,9 +138,7 @@ namespace Olympus {
 
                         object message = ((object[]) download.Current)[0];
                         if (message.ToString() != "") {
-                            yield return messagePrefix + ": " + message.ToString()
-                                .Replace(langGet("en", "downloadingfile"), langGet(lang, "downloadingfile"))
-                                .Replace(langGet("en", "downloadingprogress"), langGet(lang, "downloadingprogress"));
+                            yield return messagePrefix + ": " + message;
                         }
                     }
                 }

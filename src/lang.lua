@@ -5,6 +5,7 @@ local utils = require('utils')
 local langs = {
     en = require("lang/en"),
     fr = require("lang/fr"),
+    zh = require("lang/zh"),
     ne = {}, -- "en" backwards
 }
 

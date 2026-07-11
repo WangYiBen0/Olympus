@@ -168,7 +168,7 @@ Alternatively, you can manually install the runtime, then attempt the installati
     go_to_gamebanana_com = [[Go to gamebanana.com]],
     search = [[Search]],
     featured = [[Featured]],
-    page = [[Page #]],
+    page = [[Page #%d]],
     error_downloading_mod_list = [[Error downloading mod list: ]],
     error_downloading_subcategories_list = [[Error downloading subcategories list: ]],
     error_downloading_categories_list = [[Error downloading categories list: ]],
@@ -412,6 +412,8 @@ over the lazy dog.]],
     note_this_only_covers_olympus_1 = [[NOTE: ]],
     note_this_only_covers_olympus_2 = [[This section only covers Olympus updates. To update Everest and Lönn, use the]],
     note_this_only_covers_olympus_3 = [[buttons in the main menu.]],
+    theme_dark = [[Dark (Default)]],
+    theme_light = [[Light]],
 
     -- C# stuff (Cmds.Download / CmdUpdateAllMods)
     csharp_downloadinglist = [[Downloading mod versions list]],

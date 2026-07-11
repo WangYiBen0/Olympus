@@ -22,7 +22,9 @@ for i, file in ipairs(love.filesystem.getDirectoryItems("data/themes")) do
     if name then
         local theme = utils.loadJSON("data/themes/" .. name .. ".json")
         themes[#themes + 1] = {
-            text = theme.__name or tostring(theme),
+            text = (name == "default" and lang.get("theme_dark") or (
+                    name == "light" and lang.get("theme_light") or (
+                    theme.__name or tostring(theme)))),
             data = name,
             theme = theme
         }
@@ -121,6 +123,11 @@ local themePickerEntries = {}
 for i = 1, #themes do
     local name = themes[i].data
     local text = themes[i].text
+    if name == "default" then
+        text = lang.get("theme_dark")
+    elseif name == "light" then
+        text = lang.get("theme_light")
+    end
     local theme = (name == "default" or not name) and themer.default or themes[i].theme
 
     local bigbtn = uie.button(

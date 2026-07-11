@@ -170,7 +170,7 @@ Tu peux aussi installer le runtime manuellement, puis réessayer d'installer Eve
     go_to_gamebanana_com = [[Aller sur gamebanana.com]],
     search = [[Rechercher]],
     featured = [[A la une]],
-    page = [[Page ]],
+    page = [[Page %d]],
     error_downloading_mod_list = [[Erreur lors du chargement de la liste des mods : ]],
     error_downloading_subcategories_list = [[Erreur lors du chargement de la liste des sous-catégories : ]],
     error_downloading_categories_list = [[Erreur lors du chargement de la liste des catégories : ]],
@@ -415,6 +415,8 @@ over the lazy dog.]],
     note_this_only_covers_olympus_1 = [[NOTE : ]],
     note_this_only_covers_olympus_2 = [[Cette section ne concerne que les mises à jour d'Olympus. Pour Everest et Lönn, utilise les boutons]],
     note_this_only_covers_olympus_3 = [[dans le menu principal.]],
+    theme_dark = [[Sombre (défaut)]],
+    theme_light = [[Clair]],
 
     -- C# stuff (Cmds.Download / CmdUpdateAllMods)
     csharp_downloadinglist = [[Téléchargement de la liste des mods]],

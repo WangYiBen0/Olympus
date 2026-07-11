@@ -245,7 +245,7 @@ function scene.loadPage(page)
             if page == 0 then
                 pageLabel.text = lang.get("featured")
             else
-                pageLabel.text = lang.get("page") .. tostring(page)
+                pageLabel.text = string.format(lang.get("page"), page)
             end
             scene.page = page
         else

@@ -164,7 +164,7 @@ Steam、EGS 和 itch.io 客户端都支持此操作，无需完全重装。]],
     go_to_gamebanana_com = [[前往 gamebanana.com]],
     search = [[搜索]],
     featured = [[精选]],
-    page = [[第 # 页]],
+    page = [[第 %d 页]],
     error_downloading_mod_list = [[下载模组列表时出错：]],
     error_downloading_subcategories_list = [[下载子分类列表时出错：]],
     error_downloading_categories_list = [[下载分类列表时出错：]],
@@ -393,9 +393,9 @@ Steam、EGS 和 itch.io 客户端都支持此操作，无需完全重装。]],
     api_mirror = [[API 镜像]],
     image_mirror = [[图片镜像]],
     this_is_your_current_theme_the_quick_bro = [[这是你当前的主题。
-敏捷的棕色狐狸跳过了]],
+龙跳天门]],
     this_is_the_new_theme_over_the_lazy_dog = [[这是新的主题。
-那只懒惰的狗。]],
+虎卧凰阁]],
     if_you_have_difficulty_downloading_mods_ = [[如果你在下载模组或加载 Olympus 部分内容时遇到困难，可以尝试以下选项。
 - ]],
     can_help_if_mod_downloads_are_slow_or_ga = [[ 可在模组下载速度慢或 GameBanana 出现问题时提供帮助。
@@ -408,6 +408,8 @@ Steam、EGS 和 itch.io 客户端都支持此操作，无需完全重装。]],
     note_this_only_covers_olympus_1 = [[注意：]],
     note_this_only_covers_olympus_2 = [[此部分仅涉及 Olympus 自身的更新。要更新 Everest 和 Lönn，请使用主菜单中的]],
     note_this_only_covers_olympus_3 = [[按钮。]],
+    theme_dark = [[深色模式（默认）]],
+    theme_light = [[浅色模式]],
 
     -- C# stuff (Cmds.Download / CmdUpdateAllMods)
     csharp_downloadinglist = [[正在下载模组版本列表]],
@@ -422,9 +424,9 @@ Steam、EGS 和 itch.io 客户端都支持此操作，无需完全重装。]],
 以下模组已更新：]],
     csharp_checksum = [[正在校验文件完整性]],
     csharp_unzipping = [[解压中]],
-    csharp_unzipping_files = [[正在解压{0}项…]],
-    csharp_unzipped_files = [[解压了{0}项。]],
-    csharp_downloaded = [[{1}秒内下载了{0} 字节。]],
+    csharp_unzipping_files = [[正在解压 {0} 项…]],
+    csharp_unzipped_files = [[解压了 {0} 项。]],
+    csharp_downloaded = [[{1} 秒内下载了 {0} 字节。]],
 }
 
 return {

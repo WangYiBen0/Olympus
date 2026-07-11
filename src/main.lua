@@ -161,14 +161,37 @@ function love.errhand(...)
 end
 
 function makeFontWithFallbacks(withRenogare, size)
-    local fonts = {
-        "data/fonts/Poppins-Regular.ttf",
-        "data/fonts/NotoSans-Regular.ttf",
-        "data/fonts/NotoSansCJK-Regular.ttc",
-    }
+    local fonts
+    -- you don't just "ship a font that has Chinese, Japanese and Korean (CJK) characters in it",
+    -- because as it turns out, some characters have the same code point but are different.
+    -- Unicode heck yeah!
+    if config.language == 'zh' then
+        -- Simplified Chinese
+        fonts = {
+            "data/fonts/NotoSansSC-Regular.otf",
+            "data/fonts/NotoSansTC-Regular.otf",
+            "data/fonts/NotoSansJP-Regular.otf",
+            "data/fonts/NotoSansKR-Regular.otf"
+        }
+    else
+        -- not a CJK language, just go with alphabetical order
+        -- (having CJK fonts might still be useful for some mod descriptions)
+        fonts = {
+            "data/fonts/NotoSansJP-Regular.otf",
+            "data/fonts/NotoSansKR-Regular.otf",
+            "data/fonts/NotoSansSC-Regular.otf",
+            "data/fonts/NotoSansTC-Regular.otf"
+        }
+    end
+
+    table.insert(fonts, 1, "data/fonts/Poppins-Regular.ttf")
+    table.insert(fonts, 2, "data/fonts/NotoSans-Regular.ttf")
+
     if withRenogare then
         table.insert(fonts, 1, "data/fonts/Renogare-Regular.otf")
     end
+
+    log.debug("Making font with size", size, "and fallback order", utils.toJSON(fonts, { indent = false }))
 
     for i = #fonts, 1, -1 do
         if love.filesystem.getInfo(fonts[i], "file") then

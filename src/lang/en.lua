@@ -1,4 +1,13 @@
-return {
+function cjk_priority()
+    return {
+        "data/fonts/NotoSansJP-Regular.otf",
+        "data/fonts/NotoSansKR-Regular.otf",
+        "data/fonts/NotoSansSC-Regular.otf",
+        "data/fonts/NotoSansTC-Regular.otf"
+    }
+end
+
+local keys = {
     -- super common keys
     ok = [[OK]],
     cancel = [[Cancel]],
@@ -420,4 +429,9 @@ The following mods were updated:]],
     csharp_unzipping_files = [[Unzipping {0} file(s)]],
     csharp_unzipped_files = [[Unzipped {0} file(s)]],
     csharp_downloaded = [[Downloaded {0} bytes in {1} second(s).]],
+}
+
+return {
+    cjk_priority = cjk_priority,
+    keys = keys
 }

@@ -1,4 +1,13 @@
-return {
+function cjk_priority()
+    return {
+        "data/fonts/NotoSansSC-Regular.otf",
+        "data/fonts/NotoSansTC-Regular.otf",
+        "data/fonts/NotoSansJP-Regular.otf",
+        "data/fonts/NotoSansKR-Regular.otf"
+    }
+end
+
+local keys = {
     -- super common keys
     ok = [[确定]],
     cancel = [[取消]],
@@ -416,4 +425,9 @@ Steam、EGS 和 itch.io 客户端都支持此操作，无需完全重装。]],
     csharp_unzipping_files = [[正在解压{0}项…]],
     csharp_unzipped_files = [[解压了{0}项。]],
     csharp_downloaded = [[{1}秒内下载了{0} 字节。]],
+}
+
+return {
+    cjk_priority = cjk_priority,
+    keys = keys
 }

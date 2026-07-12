@@ -179,7 +179,8 @@ Steam、EGS 和 itch.io 客户端都支持此操作，无需完全重装。]],
 
     -- scenes/gfwtest.lua
     connectivity_test = [[连接测试]],
-    ko = [[失败]],
+    test_ok = [[成功]],
+    test_ko = [[失败]],
     maddie_s_random_stuff = [[Maddie's Random Stuff]],
     github = [[GitHub]],
     azure_pipelines = [[Azure Pipelines]],

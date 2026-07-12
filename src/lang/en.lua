@@ -183,7 +183,8 @@ Alternatively, you can manually install the runtime, then attempt the installati
 
     -- scenes/gfwtest.lua
     connectivity_test = [[Connectivity Test]],
-    ko = [[KO]],
+    test_ok = [[OK]],
+    test_ko = [[KO]],
     maddie_s_random_stuff = [[Maddie's Random Stuff]],
     github = [[GitHub]],
     azure_pipelines = [[Azure Pipelines]],

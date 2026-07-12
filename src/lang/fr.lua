@@ -185,7 +185,8 @@ Tu peux aussi installer le runtime manuellement, puis réessayer d'installer Eve
 
     -- scenes/gfwtest.lua
     connectivity_test = [[Test de connectivité]],
-    ko = [[KO]],
+    test_ok = [[OK]],
+    test_ko = [[KO]],
     maddie_s_random_stuff = [[Maddie's Random Stuff]],
     github = [[GitHub]],
     azure_pipelines = [[Azure Pipelines]],

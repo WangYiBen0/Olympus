@@ -23,7 +23,7 @@ local function buildRow(label, url)
 
     threader.routine(function()
         local data, msg = threader.wrap("utils").download(url):result()
-        lualabel.text = data and lang.get("ok") or lang.get("ko")
+        lualabel.text = data and lang.get("test_ok") or lang.get("test_ko")
         lualabel.style.color = data and uie.greentext().style.color or { 0.8, 0.5, 0.5, 1 }
         if msg then
             log.warning('Error for ' .. label .. ' / Lua: ' .. msg)
@@ -31,11 +31,11 @@ local function buildRow(label, url)
     end)
 
     sharp.webGet(url):calls(function(_, result)
-        sharplabel.text = lang.get("ok")
+        sharplabel.text = lang.get("test_ok")
         sharplabel.style.color = uie.greentext().style.color
     end):falls(function(msg)
         log.warning('Error for ' .. label .. ' / Sharp, check log-sharp for more details', msg)
-        sharplabel.text = lang.get("ko")
+        sharplabel.text = lang.get("test_ko")
         sharplabel.style.color = { 0.8, 0.5, 0.5, 1 }
         return true
     end)
